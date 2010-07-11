@@ -19,18 +19,21 @@
 #include "JavaUpcalls.h"
 #include "LockedMap.h"
 
-
 using namespace j3;
 
-/// This value is the same value than IBM's JVM.
+//
+// This value is the same value as IBM's JVM.
+//
 const sint32 JavaArray::MaxArraySize = 268435455;
 
-/// The JVM defines constants for referencing arrays of primitive types.
+//
+// The JVM defines constants for referencing arrays of primitive types.
+//
 const unsigned int JavaArray::T_BOOLEAN = 4;
-const unsigned int JavaArray::T_CHAR = 5;
-const unsigned int JavaArray::T_FLOAT = 6;
-const unsigned int JavaArray::T_DOUBLE = 7;
-const unsigned int JavaArray::T_BYTE = 8;
-const unsigned int JavaArray::T_SHORT = 9;
-const unsigned int JavaArray::T_INT = 10;
-const unsigned int JavaArray::T_LONG = 11;
+const unsigned int JavaArray::T_CHAR    = 5;
+const unsigned int JavaArray::T_FLOAT   = 6;
+const unsigned int JavaArray::T_DOUBLE  = 7;
+const unsigned int JavaArray::T_BYTE    = 8;
+const unsigned int JavaArray::T_SHORT   = 9;
+const unsigned int JavaArray::T_INT     = 10;
+const unsigned int JavaArray::T_LONG    = 11;

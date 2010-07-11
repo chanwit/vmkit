@@ -96,7 +96,7 @@ public:
   }
 
   static void setElement(ArrayObject* self, JavaObject* value, uint32_t i) {
-    llvm_gcroot(self, 0);
+    llvm_gcroot(self,  0);
     llvm_gcroot(value, 0);
     self->elements[i] = value;
   }
@@ -112,16 +112,16 @@ public:
   class name : public TJavaArray<elmt> {                      \
   }
 
-ARRAYCLASS(ArrayUInt8,  uint8);
-ARRAYCLASS(ArraySInt8,  sint8);
+ARRAYCLASS(ArrayUInt8,  uint8 );
+ARRAYCLASS(ArraySInt8,  sint8 );
 ARRAYCLASS(ArrayUInt16, uint16);
 ARRAYCLASS(ArraySInt16, sint16);
 ARRAYCLASS(ArrayUInt32, uint32);
 ARRAYCLASS(ArraySInt32, sint32);
 ARRAYCLASS(ArrayLong,   sint64);
-ARRAYCLASS(ArrayFloat,  float);
+ARRAYCLASS(ArrayFloat,  float );
 ARRAYCLASS(ArrayDouble, double);
-ARRAYCLASS(ArrayPtr, void*);
+ARRAYCLASS(ArrayPtr,    void* );
 
 #undef ARRAYCLASS
 
