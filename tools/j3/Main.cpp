@@ -38,8 +38,7 @@ int main(int argc, char **argv, char **envp) {
   // Create the allocator that will allocate the bootstrap loader and the JVM.
   mvm::BumpPtrAllocator Allocator;
   JavaJITCompiler* Comp = JavaJITCompiler::CreateCompiler("JITModule");
-  JnjvmBootstrapLoader* loader = new(Allocator, "Bootstrap loader")
-    JnjvmBootstrapLoader(Allocator, Comp, true);
+  JnjvmBootstrapLoader* loader = new(Allocator, "Bootstrap loader") JnjvmBootstrapLoader(Allocator, Comp, true);
   Jnjvm* vm = new(Allocator, "VM") Jnjvm(Allocator, loader);
  
   // Run the application. 

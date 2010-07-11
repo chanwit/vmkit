@@ -1005,20 +1005,20 @@ llvm::Function* JavaJIT::javaCompile() {
   } 
 
   Reader reader(codeAtt, &(compilingClass->bytes));
-  uint16 maxStack = reader.readU2();
+  uint16 maxStack  = reader.readU2();
   uint16 maxLocals = reader.readU2();
-  uint32 codeLen = reader.readU4();
-  uint32 start = reader.cursor;
+  uint32 codeLen   = reader.readU4();
+  uint32 start     = reader.cursor;
   
   reader.seek(codeLen, Reader::SeekCur);
 
-  const FunctionType *funcType = llvmFunction->getFunctionType();
-  const Type* returnType = funcType->getReturnType();
+  const FunctionType* funcType   = llvmFunction->getFunctionType();
+  const Type*         returnType = funcType->getReturnType();
   
   Function* func = llvmFunction;
 
-  currentBlock = createBasicBlock("start");
-  endExceptionBlock = createBasicBlock("endExceptionBlock");
+  currentBlock       = createBasicBlock("start");
+  endExceptionBlock  = createBasicBlock("endExceptionBlock");
   unifiedUnreachable = createBasicBlock("unifiedUnreachable");
 
   opcodeInfos = new Opinfo[codeLen];
@@ -1039,8 +1039,19 @@ llvm::Function* JavaJIT::javaCompile() {
   
 
   for (int i = 0; i < maxLocals; i++) {
-    intLocals.push_back(new AllocaInst(Type::getInt32Ty(*llvmContext), "", currentBlock));
-    new StoreInst(Constant::getNullValue(Type::getInt32Ty(*llvmContext)), intLocals.back(), false, currentBlock);
+    intLocals.push_back(
+      new AllocaInst(Type::getInt32Ty(*llvmContext), "", currentBlock)
+    );
+    //
+    // why it's new only without assigning the object to a variable?
+    // StoreInst contains operator overloading for 'new'?
+    //
+    new StoreInst(
+      Constant::getNullValue( Type::getInt32Ty(*llvmContext) ), 
+      intLocals.back(), 
+      false, 
+      currentBlock
+    );
     doubleLocals.push_back(new AllocaInst(Type::getDoubleTy(*llvmContext), "", currentBlock));
     new StoreInst(Constant::getNullValue(Type::getDoubleTy(*llvmContext)), doubleLocals.back(), false, currentBlock);
     longLocals.push_back(new AllocaInst(Type::getInt64Ty(*llvmContext), "", currentBlock));
@@ -1050,8 +1061,9 @@ llvm::Function* JavaJIT::javaCompile() {
     objectLocals.push_back(new AllocaInst(intrinsics->JavaObjectType, "",
                                           currentBlock));
     // The GCStrategy will already initialize the value.
-    if (!TheCompiler->useCooperativeGC())
+    if (!TheCompiler->useCooperativeGC()) {
       new StoreInst(Constant::getNullValue(intrinsics->JavaObjectType), objectLocals.back(), false, currentBlock);
+    }
   }
   
   for (int i = 0; i < maxStack; i++) {
@@ -1076,6 +1088,7 @@ llvm::Function* JavaJIT::javaCompile() {
   Typedef* const* arguments = sign->getArgumentsType();
   uint32 type = 0;
 
+  // if the compiling method is virtual
   if (isVirtual(compilingMethod->access)) {
     Instruction* V = new StoreInst(i, objectLocals[0], false, currentBlock);
     addHighLevelType(V, compilingClass);
