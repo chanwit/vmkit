@@ -14,6 +14,7 @@ include $(LEVEL)/Makefile.config
 
 ifeq ($(WITH_J3), 1)
   PARALLEL_DIRS += j3
+  PARALLEL_DIRS += g7
   PARALLEL_DIRS += vmjc
   PARALLEL_DIRS += llcj
 endif
