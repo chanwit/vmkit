@@ -591,6 +591,13 @@ dnl=== SECTION 9: Additional checks, variables, etc.
 dnl===
 dnl===-----------------------------------------------------------------------===
 
+if test "x$gc" = "xmmtk";  then
+  AC_ARG_VAR([ANT_HOME],  [Apache ANT location])
+  AS_IF([test -z "$ANT_HOME"],
+    AC_MSG_ERROR([You need ANT_HOME])
+  )
+fi
+
 dnl===-----------------------------------------------------------------------===
 dnl===
 dnl=== SECTION 10: Specify the output files and generate it
